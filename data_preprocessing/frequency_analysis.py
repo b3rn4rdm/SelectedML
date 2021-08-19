@@ -19,11 +19,9 @@ from rdkit import Chem
 from rdkit.Chem.Lipinski import NumAromaticHeterocycles
 
 # insert here the path to your copy of the xyz2mol repo
-sys.path.insert(1, '../xyz2mol/')
+sys.path.insert(1, '../../xyz2mol/')
 
 from xyz2mol import xyz2mol
-
-sys.path.insert(1, '../qml_tools/')
 
 from QM7bfile import *
 from QM9file import *
@@ -643,7 +641,7 @@ def main(datadir, dataname, outputdir, outputname, dataset='qm9', xyz='smiles'):
             
         tags_dict[index] = {'tags': tags, 'properties': mol_dict['properties']}
 
-    # write file
+    # write output file
 
     with open(f'{outputdir}{outputname}', 'wb') as outf:
         pickle.dump(tags_dict, outf)
