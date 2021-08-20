@@ -23,14 +23,14 @@ from qml_classes_qm7b_cv import group_by_label
 from qml_classify_qm9 import classify
 
 
-def save_results(resdir, outdir, resname, results):
+def save_results(resdir, outputdir, outputname, results):
     """
     save the results with predicted labels:
 
     args: 
         resdir : directory for the results file
-        outdir : directory for the new representation files
-        resname : filename
+        outputdir : directory for the new representation files
+        outputname : filename
         results : dict with results
 
     returns:
@@ -42,8 +42,8 @@ def save_results(resdir, outdir, resname, results):
     classifier = results['classifier']
     results_classification = {'seed': seed, 'train_sizes': train_sizes, 'classifier': classifier}
 
-    if os.path.exists(outdir) == False:
-        os.makedirs(outdir)
+    if os.path.exists(outputdir) == False:
+        os.makedirs(outputdir)
 
 
     for i, ts in enumerate(train_sizes):
@@ -63,21 +63,21 @@ def save_results(resdir, outdir, resname, results):
                         f'labels_ref': labels_ref}
         for key in ['U', 'D', 'R']:
             rep_data_new[key] = results[key]
-        filename = f'{outdir}{resname}_%06i.npz'%ts
+        filename = f'{outputdir}{outputname}_%06i.npz'%ts
         np.savez(filename, **rep_data_new)
 
            
-    with open(f'{resdir}{resname}.pkl', 'wb') as outf:
+    with open(f'{resdir}{outputname}.pkl', 'wb') as outf:
         pickle.dump(results_classification, outf)
  
     return
 
 
-def main(datadir, dataname, resdir, outdir, resname, classifier, seed):
+def main(inputdir, inputname, resdir, outputdir, outputname, classifier, seed):
 
     seed = int(seed)
     
-    rep_data = np.load(f'{datadir}{dataname}')
+    rep_data = np.load(f'{inputdir}{inputname}')
     X = rep_data['X']
     G_ZINDO = rep_data['G_ZINDO']
     G_PBE0 = rep_data['G_PBE0']
@@ -108,7 +108,7 @@ def main(datadir, dataname, resdir, outdir, resname, classifier, seed):
     results['D'] = timestr
 
     print('Saving results...')
-    save_results(resdir, outdir, resname, results)
+    save_results(resdir, outputdir, outputname, results)
     print('...done!')
 
     return 

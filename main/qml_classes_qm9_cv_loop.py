@@ -13,8 +13,8 @@ from uuid import uuid4
 from hashlib import md5
 
 
-def load_data(datadir, dataname):
-    data = np.load(f'{datadir}{dataname}')
+def load_data(inputdir, inputname):
+    data = np.load(f'{inputdir}{inputname}')
     X = data['X']
     G = data['G']
     H = data['H']
@@ -232,8 +232,8 @@ def get_summary_iter(results, mae_train_av, mae_test_av, std_err_train, std_err_
     return results_sum
 
 
-def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, seed_iter,
-         ktype, n_iter, lam_exp, n_train, comment=''):
+def main(inputdir, inputname, outputdir, outputname, prop, seed_test, seed_qml, seed_iter,
+         ktype, n_iter, lam_exp, n_train):
 
     seed_test = int(seed_test)
     seed_qml = int(seed_qml)
@@ -244,7 +244,7 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, se
     lam_exp = int(lam_exp)
 
     # load the dataset
-    X, G, H, L, labels, U, R = load_data(datadir, dataname)
+    X, G, H, L, labels, U, R = load_data(inputdir, inputname)
 
     if prop == 'G':
         Y = G
@@ -313,9 +313,6 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, se
 
         results['subset'] = sub
         results['prop'] = prop
-
-        # add comment to results
-        # results['comment'] = comment
 
         # save resutls
         uid = uuid4().hex

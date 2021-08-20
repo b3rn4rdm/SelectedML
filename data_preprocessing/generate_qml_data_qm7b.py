@@ -36,10 +36,10 @@ def usage():
     Generate represenations data and labels for QML.
 
     Usage:
-    python generate_qml_data.py datadir dataname outputdir outputname rep=rep text=text **kwargs
+    python generate_qml_data.py inputdir dataname outputdir outputname rep=rep text=text **kwargs
     
     args: 
-        datadir : directory containing the original data with '/' at the end
+        inputdir : directory containing the original data with '/' at the end
         dataname : name of the data file
         outputdir : directory for the resulting representation data
         outputname : name of the representations file
@@ -88,17 +88,17 @@ def get_labels_qm7b_gap_zindo(data):
 
 
 
-def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
+def main(inputdir, inputname, freq_analysis_name, outputdir, outputname, rep):
 
-    print(f'Fetching data from {datadir}{dataname}...')
-    data = read_qm7b_file(f'{datadir}{dataname}')
+    print(f'Fetching data from {inputdir}{inputname}...')
+    data = read_qm7b_file(f'{inputdir}{inputname}')
 
     # text = kwargs['text']
     uid = str(uuid4().hex)
     # dt = datetime.now()
     # date = dt.strftime('%Y%m%d%M%H%S')
 
-    with open(f'{datadir}{freq_analysis_name}', 'rb') as inf:
+    with open(f'{inputdir}{freq_analysis_name}', 'rb') as inf:
         data_freq = pickle.load(inf)
 
     # get homo and lumo energies
@@ -129,7 +129,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
                  H_ZINDO=homos['homo_zindo'], H_PBE0=homos['homo_pbe0'], H_GW=homos['homo_gw'],
                  L_ZINDO=lumos['lumo_zindo'], L_PBE0=lumos['lumo_pbe0'], L_GW=lumos['lumo_gw'],
                  G_ZINDO=gaps['gap_zindo'], G_PBE0=gaps['gap_pbe0'], G_GW=gaps['gap_gw'],
-                 Z=Z, C=C, max_size=max_size, U=uid, D=dataname, R='cm', labels=labels)
+                 Z=Z, C=C, max_size=max_size, U=uid, D=inputname, R='cm', labels=labels)
         print('Done!')
         
     elif rep == 'bob':
@@ -140,7 +140,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
                  H_ZINDO=homos['homo_zindo'], H_PBE0=homos['homo_pbe0'], H_GW=homos['homo_gw'],
                  L_ZINDO=lumos['lumo_zindo'], L_PBE0=lumos['lumo_pbe0'], L_GW=lumos['lumo_gw'],
                  G_ZINDO=gaps['gap_zindo'], G_PBE0=gaps['gap_pbe0'], G_GW=gaps['gap_gw'], 
-                 Z=Z, C=C, max_size=max_size, atomtypes=atomtypes, asize=asize, D=dataname,
+                 Z=Z, C=C, max_size=max_size, atomtypes=atomtypes, asize=asize, D=inputname,
                  U=uid, R='bob', labels=labels)
         print('Done!')
         
@@ -153,7 +153,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
                  H_ZINDO=homos['homo_zindo'], H_PBE0=homos['homo_pbe0'], H_GW=homos['homo_gw'],
                  L_ZINDO=lumos['lumo_zindo'], L_PBE0=lumos['lumo_pbe0'], L_GW=lumos['lumo_gw'],
                  G_ZINDO=gaps['gap_zindo'], G_PBE0=gaps['gap_pbe0'], G_GW=gaps['gap_gw'], 
-                 Z=Z, C=C, max_size=max_size, D=dataname, U=uid, R='slatm', labels=labels,
+                 Z=Z, C=C, max_size=max_size, D=inputname, U=uid, R='slatm', labels=labels,
                  ** slatm_params_dict)
         print('Done!')
         

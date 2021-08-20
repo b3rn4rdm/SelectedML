@@ -602,11 +602,11 @@ def iterate_over_tests(mol, mol_dict):
     return tags
 
 
-def main(datadir, dataname, outputdir, outputname, dataset='qm9', xyz='smiles'):
+def main(inputdir, inputname, outputdir, outputname, dataset='qm9', xyz='smiles'):
     """
     args:
-        datadir : directory of dataset
-        dataname : name of dataset file
+        inputdir : directory of dataset
+        inputname : name of dataset file
         outputdir : directory of the resulting frequency analysis file
         outputname : name of frequency analysis file
         dataset : 'qm9' or 'qm7b'
@@ -615,9 +615,9 @@ def main(datadir, dataname, outputdir, outputname, dataset='qm9', xyz='smiles'):
     """
 
     if dataset == 'qm9':
-        data = load_qm9_data(datadir, dataname)
+        data = load_qm9_data(inputdir, inputname)
     elif dataset == 'qm7b':
-        data = read_qm7b_file(f'{datadir}{dataname}')
+        data = read_qm7b_file(f'{inputdir}{inputname}')
 
     element2charge = {'H': 1, 'C': 6, 'N': 7, 'O': 8, 'S': 16, 'Cl': 17}
 

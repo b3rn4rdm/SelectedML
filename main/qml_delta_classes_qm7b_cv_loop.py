@@ -14,9 +14,9 @@ from uuid import uuid4
 from hashlib import md5
 
 
-def load_data(datadir, dataname, prop_base, prop_target):
+def load_data(inputdir, inputname, prop_base, prop_target):
 
-    data = np.load(f'{datadir}{dataname}')
+    data = np.load(f'{inputdir}{inputname}')
 
     X = data['X']
     Y_base = data[prop_base]
@@ -105,12 +105,12 @@ def run_delta_qml(X, Y_base, Y, indices, test_ind, delta_qml_krr, train_sizes, s
     return results    
 
 
-def main(datadir, dataname, outputdir, outputname, prop_base, prop_target, seed_test, seed_qml,
-         seed_iter, ktype, n_iter, lam_exp, comment=''):
+def main(inputdir, inputname, outputdir, outputname, prop_base, prop_target, seed_test, seed_qml,
+         seed_iter, ktype, n_iter, lam_exp):
     """
     args: 
-        datadir : directory of dataset file
-        dataname : name of dataset file
+        inputdir : directory of dataset file
+        inputname : name of dataset file
         outputdir : directory for output data
         outputname : name of output data
         prop_base : key for baseline values 
@@ -130,7 +130,7 @@ def main(datadir, dataname, outputdir, outputname, prop_base, prop_target, seed_
     lam_exp = int(lam_exp)
         
     # load the dataset
-    X, Y_base, Y, U, labels, R = load_data(datadir, dataname, prop_base, prop_target)
+    X, Y_base, Y, U, labels, R = load_data(inputdir, inputname, prop_base, prop_target)
 
     X_subsets, u_labels = group_by_label(X, labels)
     Y_base_subsets, u_labels = group_by_label(Y_base, labels)
@@ -191,8 +191,6 @@ def main(datadir, dataname, outputdir, outputname, prop_base, prop_target, seed_
 
         results['subset'] = sub
 
-        # add comment to results
-        # results['comment'] = comment
         results['prop_base'] = prop_base
         results['prop_target'] = prop_target
         results['R'] = R

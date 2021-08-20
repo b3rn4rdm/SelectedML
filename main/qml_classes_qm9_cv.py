@@ -13,8 +13,8 @@ from uuid import uuid4
 from hashlib import md5
 
 
-def load_data(datadir, dataname, prop):
-    data = np.load(f'{datadir}{dataname}')
+def load_data(inputdir, inputname, prop):
+    data = np.load(f'{inputdir}{inputname}')
     X = data['X']
     Y = data[prop]
     labels = data['labels']
@@ -146,12 +146,12 @@ def get_rand_indices(n_samples, n_train, seed_qml):
     return indices[:n_train]
 
 
-def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_train, seed_cv,
-         ktype, n_fold, lam_exp, comment=''):
+def main(inputdir, inputname, outputdir, outputname, prop, seed_test, seed_train, seed_cv,
+         ktype, n_fold, lam_exp):
     """
     args : 
-        datadir
-        dataname
+        inputdir
+        inputname
         outputdir
         outputname
         prop
@@ -161,7 +161,6 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_train, 
         ktype
         n_fold
         lam_exp
-        comment
     """
     
     seed_test = int(seed_test)
@@ -171,7 +170,7 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_train, 
     lam_exp = int(lam_exp)
     
     # load the dataset
-    X, Y, labels, U, R = load_data(datadir, dataname, prop)
+    X, Y, labels, U, R = load_data(inputdir, inputname, prop)
 
     X_subsets, u_labels = group_by_label(X, labels)
     Y_subsets, u_labels = group_by_label(Y, labels)
@@ -244,9 +243,6 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_train, 
         results['prop'] = prop
         results['seed_test'] = seed_test
         results['seed_train'] = seed_train
-
-        # add comment to results
-        results['comment'] = comment
 
         uid = uuid4().hex
         results['uuid'] = uid

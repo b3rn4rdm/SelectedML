@@ -13,9 +13,9 @@ from uuid import uuid4
 from hashlib import md5
 
 
-def load_data(datadir, dataname, prop):
+def load_data(inputdir, inputname, prop):
 
-    data = np.load(f'{datadir}{dataname}')
+    data = np.load(f'{inputdir}{inputname}')
 
     X = data['X']
     Y = data[prop]
@@ -197,12 +197,12 @@ def run_qml(X, Y, indices, test_ind, qml_krr, train_sizes, seed_qml, seed_iter, 
     return results    
 
 
-def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, seed_iter,
-         ktype, n_iter, lam_exp, comment=''):
+def main(inputdir, inputname, outputdir, outputname, prop, seed_test, seed_qml, seed_iter,
+         ktype, n_iter, lam_exp):
     """
     args: 
-        datadir : directory of dataset file
-        dataname : name of dataset file
+        inputdir : directory of dataset file
+        inputname : name of dataset file
         outputdir : directory for output data
         outputname : name of output data
         prop : key for lumo values ('L_ZINDO', 'L_PBE0', 'L_GW')
@@ -224,7 +224,7 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, se
     n_iter = int(n_iter)
     
     # load the dataset
-    X, Y, U, labels, R = load_data(datadir, dataname, prop)
+    X, Y, U, labels, R = load_data(inputdir, inputname, prop)
 
     X_subsets, u_labels = group_by_label(X, labels)
     Y_subsets, u_labels = group_by_label(Y, labels)

@@ -275,17 +275,17 @@ def get_slatm_for_data(data, slatm_params_dict):
 # =========
 
 
-def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
+def main(inputdir, inputname, freq_analysis_name, outputdir, outputname, rep):
 
-    print(f'Fetching data from {datadir}{dataname}...')
-    data = load_qm9_data(datadir, dataname)
+    print(f'Fetching data from {inputdir}{inputname}...')
+    data = load_qm9_data(inputdir, inputname)
 
     # text = kwargs['text']
     uid = str(uuid4().hex)
     # dt = datetime.now()
     # date = dt.strftime('%Y%m%d%M%H%S')
 
-    with open(f'{datadir}{freq_analysis_name}', 'rb') as inf:
+    with open(f'{inputdir}{freq_analysis_name}', 'rb') as inf:
         data_freq = pickle.load(inf)
 
     # get homo and lumo energies
@@ -303,7 +303,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
         X, max_size, Z, C = get_coulomb_matrices_for_data(data)
         print(f'Saving to {outputdir}{outputname} ...')
         np.savez(f'{outputdir}{outputname}', X=X, H=homos, L=lumos, G=gaps,
-                 Z=Z, C=C, max_size=max_size, D=dataname, U=uid, R='cm',
+                 Z=Z, C=C, max_size=max_size, D=inputname, U=uid, R='cm',
                  labels=labels)
         print('Done!')
         
@@ -312,7 +312,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
         X, max_size, atomtypes, asize, Z, C = get_bob_for_data(data)
         print(f'Saving to {outputdir}{outputname} ...')
         np.savez(f'{outputdir}{outputname}', X=X, H=homos, L=lumos, G=gaps,
-                 Z=Z, C=C, max_size=max_size, atomtypes=atomtypes, asize=asize, D=dataname,
+                 Z=Z, C=C, max_size=max_size, atomtypes=atomtypes, asize=asize, D=inputname,
                  U=uid, R='bob', label=labels)
         print('Done!')
         
@@ -322,7 +322,7 @@ def main(datadir, dataname, freq_analysis_name, outputdir, outputname, rep):
         X, max_size, Z, C = get_slatm_for_data(data, slatm_params_dict)
         print(f'Saving to {outputdir}{outputname} ...')
         np.savez(f'{outputdir}{outputname}', X=X, H=homos, L=lumos, G=gaps,
-                 Z=Z, C=C, max_size=max_size, D=dataname, U=uid, R='slatm', labels=labels,
+                 Z=Z, C=C, max_size=max_size, D=inputname, U=uid, R='slatm', labels=labels,
                  ** slatm_params_dict)
         print('Done!')
         

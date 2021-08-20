@@ -14,18 +14,18 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 
-def main(inputdir, inputfile, outputdir, outputfile, scale='False', qm9='True'):
+def main(inputdir, inputname, outputdir, outputfile, scale='False', qm9='True'):
     """
     args: 
         inputdir (string) : 
-        inputfile (string) : 
+        inputname (string) : 
         outputdir (string) : 
         outputfile (string) : 
         scaled=False (boolean) :
         qm9=True (boolean)
     """
 
-    data = np.load(f'{inputdir}{inputfile}')
+    data = np.load(f'{inputdir}{inputname}')
 
     X = data['X']
     labels = data['labels']

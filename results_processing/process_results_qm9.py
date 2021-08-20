@@ -78,7 +78,7 @@ def get_res_scatter_data(res_list, subset, iter_ind, train_sizes):
     return res_sum
                 
 
-def main(inputdir, inputfile, outputdir, outputfile, iter_index):
+def main(inputdir, inputname, outputdir, outputname, iter_index):
 
     iter_index = int(iter_index)
 
@@ -115,16 +115,16 @@ def main(inputdir, inputfile, outputdir, outputfile, iter_index):
                 hash_str = f'qm9 loop {prop} {sub} {R} {ktype} {sig} {lam_exp} {n_train}'
                 print(hash_str)
                 res_hash = md5(bytes(hash_str, 'utf-8')).hexdigest()
-                with open(f'{inputdir}{inputfile}_{res_hash}.pkl', 'rb') as inf:
+                with open(f'{inputdir}{inputname}_{res_hash}.pkl', 'rb') as inf:
                     res_tmp[n_train] = pickle.load(inf)
                     
             res_sum_lc = get_res_learning_curves(res_tmp, sub, n_iter, train_sizes_dict[sub])
             save_learning_curves(res_sum_lc, prop, sub, R, ktype, sig, lam_exp, res_hash,
-                                 train_sizes_dict[sub], outputdir, outputfile)
+                                 train_sizes_dict[sub], outputdir, outputname)
             
             res_sum_scatter = get_res_scatter_data(res_tmp, sub, iter_index, train_sizes_dict[sub])
             save_scatter_data(res_sum_scatter, prop, sub, R, ktype, sig, lam_exp, res_hash,
-                              outputdir, outputfile)
+                              outputdir, outputname)
 
 
     return
