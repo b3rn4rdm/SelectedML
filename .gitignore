@@ -4,3 +4,4 @@ results/*
 misc/*
 figures/*
 *__pycache__*
+notebooks/.ipynb_checkpoints/*
