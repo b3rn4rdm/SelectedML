@@ -281,7 +281,7 @@ def main(datadir, dataname, outputdir, outputname, prop, seed_test, seed_qml, se
 
     print(f'n_train = {n_train} | subsets = {subsets}')
 
-    sigmas = {-1: 256., 0: 256., 1: 256., 2: 256.}
+    sigmas = {-1: 256.0, 0: 256.0, 1: 256.0, 2: 256.0}
 
     for sub in subsets:
 
