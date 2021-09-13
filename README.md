@@ -1,6 +1,6 @@
-# MolClass_HOMO_LUMO
+# Selected Machine Learning (SML)
 
-Code used to generate the results presented in the article "Molecular Classification Improves Data-efficiency of Quantum Machine Learning Models of HOMO-LUMO gaps" (insert arXiv link here).
+Code used to generate the results presented in the article "SML: Selected Machine Learning for Improved Data-Efficiency of HOMO-LUMO gaps" (insert arXiv link here later).
 
 Organic molecules from QM9 and QM7b are distributed into 3 classes according to some simple rules based on the functional groups. ML within these classes improves the out-of-sample prediction errors of HOMO-LUMO gaps, as well as HOMO and LUMO energies.
 
@@ -14,6 +14,7 @@ Most of the code is organized into scripts. For technical reasons, there are sep
 - The following packages are required:
   - QMLcode:
   - xyz2mol:
+  - scikit-learn: 
 
 In the folder `data_preprocessing/`: 
 
@@ -51,15 +52,15 @@ Runs a grid-search CV within a given training set size, usually the largest one 
 
 For QM7b:
 
-    python qml_classes_qm7b_cv.py inputdir/ inputname outputdir/ outputname prop seed_test seed_train seed_cv ktype n_fold lam_exp
+    python sml_qm7b_cv.py inputdir/ inputname outputdir/ outputname prop seed_test seed_train seed_cv ktype n_fold lam_exp
     e.g.:
-    python qml_classes_qm7b_cv.py ../data/ qm7b_cm.npz ../results/ qm7b_res G_ZINDO 42 987654321 5 laplacian 5 -12
+    python sml_qm7b_cv.py ../data/ qm7b_cm.npz ../results/ qm7b_res G_ZINDO 42 987654321 5 laplacian 5 -12
 
 For QM9:
 
-    python qml_classes_qm9_cv.py inputdir/ inputname outputdir/ outputname prop seed_test seed_train seed_cv ktype n_fold lam_exp
+    python sml_qm9_cv.py inputdir/ inputname outputdir/ outputname prop seed_test seed_train seed_cv ktype n_fold lam_exp
     e.g.:
-    python qml_classes_qm9_cv.py ../data/ qm9_cm.npz ../results/ qm9_res G 42 987654321 5 laplacian 5 -12 
+    python sml_qm9_cv.py ../data/ qm9_cm.npz ../results/ qm9_res G 42 987654321 5 laplacian 5 -12 
 
 
 ## Generate Learning Curves
@@ -68,9 +69,9 @@ Runs ML over increasing training set sizes in order to produce learning curves. 
 
 For QM7b:
 
-    python qml_classes_qm7b_cv_loop.py inputdir/ inputname outputdir/ outputname prop seed_test seed_qml seed_iter ktype n_iter lam_exp
+    python sml_qm7b_cv_loop.py inputdir/ inputname outputdir/ outputname prop seed_test seed_qml seed_iter ktype n_iter lam_exp
     e.g.:
-    python qml_classes_qm7b_cv_loop.py ../data/ qm7b.npz ../results/ qm9_res G_ZINDO 42 66 5 laplacian 10 -12
+    python sml_qm7b_cv_loop.py ../data/ qm7b.npz ../results/ qm9_res G_ZINDO 42 66 5 laplacian 10 -12
     
 For $\Delta$-ML:
 
@@ -80,9 +81,9 @@ For $\Delta$-ML:
 
 For QM9: (Note that the script has to be called for each training set size separately.)
 
-    python qml_classes_qm9_cv_loop.py inputdir/ inputname outputdir/ outputname prop seed_test seed_qml seed_iter ktype n_iter lam_exp n_train
+    python sml_qm9_cv_loop.py inputdir/ inputname outputdir/ outputname prop seed_test seed_qml seed_iter ktype n_iter lam_exp n_train
     e.g.:
-    python qml_classes_qm9_cv_loop.py ../data/ qm9_cm.npz ../results/ qm9_res G 42 987654321 5 laplacian 10 -12 1000
+    python sml_qm9_cv_loop.py ../data/ qm9_cm.npz ../results/ qm9_res G 42 987654321 5 laplacian 10 -12 1000
 
 In the folder `results_processing/`:
 
