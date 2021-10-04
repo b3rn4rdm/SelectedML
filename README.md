@@ -4,17 +4,11 @@ Code used to generate the results presented in the article "SML: Selected Machin
 
 Organic molecules from QM9 and QM7b are distributed into 3 classes according to some simple rules based on the functional groups. ML within these classes improves the out-of-sample prediction errors of HOMO-LUMO gaps, as well as HOMO and LUMO energies.
 
-Most of the code is organized into scripts. For technical reasons, there are separate scripts for QM9 and QM7b. Below are explanations how the scripts are used.
-- The first line provides the syntax and the second one shows an example.
-- All directories have to have a "/" at the end.
-- Sometimes, the filenames are with extensions, sometimes without. This is because some scripts generate several output files.
-- The output files for the ML results contain a hash generated from a string that contains specific information about that result (dataset, representation, some hyperparameters used, ...). I find this easier to use than to put these values in the file name itself, because otherwise the filenames become excessively long concatenations of parameter values. 
-- You may need to create new directories to store your data and results.
-- Some variables and hyperparameters have to be changed in the `main` function in the scripts, depending on what you need. That's why it's worth taking a look at the main function of each script before you run it.
-- The following packages are required:
-  - QMLcode:
-  - xyz2mol:
-  - scikit-learn: 
+Most of the code is organized into scripts. For technical reasons, there are separate scripts for QM9 and QM7b. 
+The following packages are required:
+- QMLcode:
+- xyz2mol:
+- scikit-learn: 
 
 In the folder `data_preprocessing/`: 
 
@@ -34,7 +28,7 @@ Generate `.npz` files with the representations, coordinates, nuclear charges and
 
     python generate_qml_data_qm7b.py input_dir/ inputname freq_analysis_name outputdir/ outputname rep=['cm', 'bob', 'slatm']
     e.g.:
-    python generate_qml_data_qm7b.py ../data/ qm7b.txt qm7b_frequency_analysis.pkl ../results/ qm7b_cm.npz cm 
+    python generate_qml_data_qm7b.py ../data/ dsgdb7njp.xyz qm7b_frequency_analysis.pkl ../results/ qm7b_cm.npz cm 
     
    
 For QM9:
@@ -48,7 +42,7 @@ In the folder `../main/`:
 
 ## Run Cross-Validation
 
-Runs a grid-search CV within a given training set size, usually the largest one possible for a given class, in order to determine the optimal kernel width $\sigma$. The parameter space is defined in the `main` function. 3 seeds are required for random selection of the test molecules (`seed_test`), training molecules (`seed_train`) and random splitting of the training set into equally sized folds. The test set molecules are actually ignored in the CV.
+Runs a grid-search CV within a given training set size, usually the largest one possible for a given class, in order to determine the optimal kernel width $\sigma$. The parameter space is defined in the `main` function. 3 seeds are required for random selection of the test molecules (`seed_test`), training molecules (`seed_train`) and random splitting of the training set into equally sized folds. (The test set molecules are actually ignored in the CV.)
 
 For QM7b:
 
@@ -65,7 +59,7 @@ For QM9:
 
 ## Generate Learning Curves
 
-Runs ML over increasing training set sizes in order to produce learning curves. For each class, a training and test set are generated. In addition, a training set is generated with molecules drawn at random without consideration of class labels. For each test set, we produce 2 predictions, one from the model trained on the corresponding class ans a second one from the model that ignores class labels. The kernel width $\sigma$ is specified in the `main` function and can be obtained from the previous CV. The whole procedure is repeated 'n_iter' times, with different trainign set moelcules for each repetition. Again, 3 seeds have to be specified: `seed_test` for chhosing the test set molecules, `seed_qml` for choosing training set molecules and `seed_iter` for making sure that at every repetition different molecules are chosen for training. Note that `seed_iter` needs to be much smaller than `seed_qml`. For each repetation, a new seed is calculated by dividing `seed_qml` by `seed_iter`, thus guaranteeing different training sets for each repretition.
+Runs ML over increasing training set sizes in order to produce learning curves. For each class, a training and test set are generated. In addition, a training set is generated with molecules drawn at random without consideration of class labels. For each test set, we produce 2 predictions, one from the model trained on the corresponding class ans a second one from the model that ignores class labels. The kernel width $\sigma$ is specified in the `main` function and a good choice can be obtained from the previous CV. The whole procedure is repeated 'n_iter' times, with different training set molecules for each repetition. Again, 3 seeds have to be specified. Note that `seed_iter` needs to be much smaller than `seed_qml`.
 
 For QM7b:
 
